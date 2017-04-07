@@ -1,0 +1,1 @@
+jQuery(function($){var e,o=$(".header").outerHeight(),r=$(window),i=$(window).innerHeight();r.scroll(function(){e=r.scrollTop(),e>=i?$(".header.home").addClass("sticky"):$(".header.home").removeClass("sticky")})});

@@ -1,0 +1,512 @@
+/*
+ * Theme Name: The Particulars
+ * Description: A custom theme for the publication The Particulars.
+ * Author: Ordinary Studios
+*/
+
+// Variables
+
+$cream: #FFFCFC;
+$white: #FFFFFF;
+$baseUnit: 0.5rem;
+
+$background: $cream;
+$card-background: $white;
+$header-background: $white;
+$shadow: 0 1px 1px 0 rgba(0,0,0,0.10);
+$headerHeight: 8 * $baseUnit;
+
+/*****************************
+ Normalize
+****************************/
+
+html {
+  font-family: Europa, Futura, sans-serif; /* 1 */
+  line-height: 1.15; /* 2 */
+  -ms-text-size-adjust: 100%; /* 3 */
+  -webkit-text-size-adjust: 100%; /* 3 */
+}
+
+body {
+  margin: 0;
+  background: $background;
+}
+
+
+article,
+aside,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+figcaption,
+figure,
+main { /* 1 */
+  display: block;
+}
+figure {
+  margin: 1em 40px;
+}
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+a {
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+b,
+strong {
+  font-weight: inherit;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+dfn {
+  font-style: italic;
+}
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+
+audio,
+video {
+  display: inline-block;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+img {
+  border-style: none;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: sans-serif; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+
+button,
+input { /* 1 */
+  overflow: visible;
+}
+
+button,
+select { /* 1 */
+  text-transform: none;
+}
+
+button,
+html [type="button"], /* 1 */
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+
+progress {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+
+details, /* 1 */
+menu {
+  display: block;
+}
+
+
+summary {
+  display: list-item;
+}
+
+
+canvas {
+  display: inline-block;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+/*************************
+ Base Rules
+**************************/
+
+body {
+  background: $background;
+  &:not(.home) {
+    padding-top: $headerHeight;
+  }
+}
+
+%whiteContainerWithShadow {
+  background: $header-background;
+  box-shadow: $shadow;
+}
+
+.header {
+  @extend %whiteContainerWithShadow;
+  padding: 2 * $baseUnit;
+  height: $headerHeight;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:not(.home) {
+    position: fixed;
+    top: 0;
+  }
+  &.home {
+    position: absolute;
+    bottom: -1 * $headerHeight;
+  }
+  &.sticky {
+    position: fixed;
+    top: 0;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.nav-main {
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .menu-item {
+    float: left;
+    padding: 10px 20px;
+  }
+  a {
+    font-weight: 500;
+    font-size: 12px;
+    color: #000000;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    &:hover {
+      border-bottom: solid 1px #000;
+    }
+  }
+}
+
+.hideText {
+  text-indent: -300vw;
+  position: absolute;
+  visibility: hidden;
+}
+
+.hero {
+  &-header {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    height: 160px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &-featuredPostsCarousel {
+    width: 100vw;
+    height: 100vh;
+
+    &-slide {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      justify-content: flex-end;
+      text-align: center;
+      color: white;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 160px;
+        opacity: 0.4;
+        background-image: linear-gradient(0deg, rgba(0,0,0,0.00) 0%, #000000 100%);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 160px;
+        opacity: 0.4;
+        background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, #000000 100%);
+      }
+
+      &-content {
+        z-index: 2;
+        display: flex;
+        height: 160px;
+        width: 100vw;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        h2 {
+          font-family: 'BaskervilleNewBQ-Italic', Baskerville;
+          font-weight: normal;
+          font-style: italic;
+          font-size: 32px;
+          color: #FFFFFF;
+          line-height: 28px;
+          margin-bottom: 8px;
+        }
+        p {
+          font-size: 16px;
+          color: #FFFFFF;
+          letter-spacing: 0;
+          line-height: 28px;
+          margin-bottom: 0;
+          margin-top: 0;
+        }
+        a {
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.card {
+  @extend %whiteContainerWithShadow;
+  margin: $baseUnit;
+}
+
+
+.hdr-logo {
+  margin: 0;
+  padding: 10px;
+  svg {
+    float: left;
+  }
+}
+
+.loop {
+  .wrapper {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 980px;
+    padding: 80px 20px 20px;
+  }
+  .card {
+    margin-top: 20px;
+    width: 50%;
+  }
+}
+
+.card {
+  &-thumbnail {
+
+  }
+  &-summary {
+    padding: 16px 12px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  h2 {
+    font-family: Baskerville, serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 24px;
+    color: rgba(0,0,0,0.87);
+    padding: 0;
+    margin: 0;
+    margin-bottom: 8px;
+  }
+  p {
+    padding: 0;
+    margin: 0;
+    font-family: Baskerville, serif;
+    margin-bottom: 1em;
+    &.post-date {
+      /* 4 DAYS AGO: */
+      font-family: Europa, Futura, sans-serif;
+      font-size: 10px;
+      color: rgba(0,0,0,0.26);
+      letter-spacing: 1px;
+      line-height: 10px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+    }
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.8em;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.26);
+  a {
+    color: inherit;
+  }
+  p {
+    margin: 0;
+  }
+}
