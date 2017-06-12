@@ -1,0 +1,12 @@
+{% extends "base.twig" %}
+
+{% block content %}
+
+	<div class="loop">
+		<div class="wrapper">
+		{% for post in posts %}
+			{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+		{% endfor %}
+		</div>
+	</div>
+{% endblock %}

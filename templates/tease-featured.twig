@@ -1,7 +1,7 @@
-<article style="background-image: url({{post.thumbnail.src}});" class="tease tease-{{post.post_type}} hero-featuredPostsCarousel-slide" id="tease-{{post.ID}}">
+<article style="background-image: url({{post.thumbnail.src}});" class="tease tease-{{post.post_type}} hero-featuredPostsCarousel-slide mt5" id="tease-{{post.ID}}">
 		<!-- <img src="{{post.thumbnail.src}}" /> -->
-		<div class="hero-featuredPostsCarousel-slide-content">
-			<h2 class="h2"><a href="{{post.link}}">{{post.title}}</a></h2>
-			<p>{{post.get_preview}}</p>
+		<div class="hero-featuredPostsCarousel-slide-content pa2 pa3-m pa4-l border-box measure-wide">
+			<h2 class="f3 f2-ns lh-solid mv1"><a class="white serif i fw1" href="{{post.link}}">{{post.title}}</a></h2>
+			<p class="f5 f4-ns lh-title white mv1 fw1">{{ post.get_preview(25, false, false, true, "&hellip;") }}</p>
 		</div>
 </article>

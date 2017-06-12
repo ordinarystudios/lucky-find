@@ -12,7 +12,7 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-wp_enqueue_script( 'script', get_template_directory_uri() . '/scripts/main.js', array ( 'jquery' ), 1.1, true);
+wp_enqueue_script( 'script', get_template_directory_uri() . '/scripts/min/main-min.js', array ( 'jquery' ), 1.1, true);
 
 Timber::$dirname = array('templates', 'views');
 

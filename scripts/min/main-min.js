@@ -1,1 +1,1 @@
-jQuery(function($){var e,o=$(".header").outerHeight(),r=$(window),i=$(window).innerHeight();r.scroll(function(){e=r.scrollTop(),e>=i?$(".header.home").addClass("sticky"):$(".header.home").removeClass("sticky")})});
+$(function($){var e,o=$(window),r=$(window).innerHeight();o.scroll(function(){e=o.scrollTop(),e>=r-64?$(".header.home").addClass("sticky"):$(".header.home").removeClass("sticky")})});var $grid=$(".loop .wrapper").imagesLoaded(function(){$grid.masonry({itemSelector:".card",gutter:16})});
