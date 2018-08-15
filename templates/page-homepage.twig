@@ -4,7 +4,7 @@
 	{% for section in post.get_field('homepage') %}
 		{% if section.acf_fc_layout == 'hero_post' %}
 			{% if TimberImage(section.hero_image_override).src %}
-					<section style="background-image:url('{{ TimberImage(section.hero_image_override).src }}')" class="section--hero_post ph2 relative w-100 min-vh-100 bg-center cover flex flex-column justify-end items-center tc pa3 pa4-ns">
+					<section style="background-image:url('{{ TimberImage(section.hero_image_override).src }}')" class="section--hero_post relative w-100 bg-center contain flex flex-column justify-end items-center tc homepage-hero aspect-ratio aspect-ratio--4x3">
 				{% else %}
 					<section style="background-image:url('{{ section.post.thumbnail.src | resize(2500,1875) }}')" class="section--hero_post relative ph2 w-100 min-vh-100 bg-center cover flex flex-column justify-end items-center tc pa3 pa4-ns">
 				{% endif %}
