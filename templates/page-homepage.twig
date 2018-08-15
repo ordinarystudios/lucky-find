@@ -1,0 +1,94 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+	{% for section in post.get_field('homepage') %}
+		{% if section.acf_fc_layout == 'hero_post' %}
+			{% if TimberImage(section.hero_image_override).src %}
+					<section style="background-image:url('{{ TimberImage(section.hero_image_override).src }}')" class="section--hero_post ph2 relative w-100 min-vh-100 bg-center cover flex flex-column justify-end items-center tc pa3 pa4-ns">
+				{% else %}
+					<section style="background-image:url('{{ section.post.thumbnail.src | resize(2500,1875) }}')" class="section--hero_post relative ph2 w-100 min-vh-100 bg-center cover flex flex-column justify-end items-center tc pa3 pa4-ns">
+				{% endif %}
+				<h2 class="ma0 f1 serif-display white text-shadow fw1 z-1">
+					{% if section.hed_override %}
+						{{ section.hed_override }}
+					{% else %}
+						{{ section.post.title }}
+					{% endif %}
+				</h2>
+				<p class="ma0 white text-shadow z-1 measure">
+				{% if section.dek_override %}
+					{{ section.dek_override }}
+				{% else %}
+					{{ section.post.preview.length(10).read_more('Read More') }}
+				{% endif %}
+				</p>
+				<a class="absolute absolute--fill z-3" href="{{ section.post.link }}"></a>
+			</section>
+		{% elseif section.acf_fc_layout == 'featured_posts' %}
+			<section class="section--featured_posts ph2 flex flex-wrap mw8 center mv3 mv4-m mv5-l">
+				{% for post in section.posts %}
+					<div class="w-100 w-third-ns relative pa2 pa3-ns">
+						<img src="{{ post.post.thumbnail.src | resize(500,500) }}" alt="">
+						<p class="ma0 ttu f7 tracked mv2 bb b--red dib pb2">{{ post.post.category }}</p>
+						<h4 class="ma0 f3 serif-display fw1">{{ post.post.title }}</h4>
+						<a href="{{ post.post.link }}" class="absolute absolute--fill"></a>
+					</div>
+				{% endfor %}
+			</section>
+		{% elseif section.acf_fc_layout == 'brand_story' %}
+			<section class="section--brand_story ph2 bg-white flex items-center justify-center">
+				<p class="f4 f2-l fw1 lh-title tc script pa3 pa5-ns measure-wide">{{ section.content }}</p>
+			</section>
+		{% elseif section.acf_fc_layout == 'customize' %}
+			<section class="section--customize ph2 flex flex-column items-center mv4 mv5-l">
+				<h3 class="f5 lh-title  mb3 bb b--red pb3 ttu tracked fw1">{{ section.title }}</h3>
+				<h4 class="mt4 mb3 f2 f1-l serif-display fw1">{{ section.hed }}</h4>
+				<p class="mt0 mb3 f4 lh-title fw1 tc measure-wide">{{ section.dek }}</p>
+				<div class="w-100 mw8 flex flex-wrap">
+					{% for post in section.featured_posts %}
+						<div class="w-100 w-third-ns relative pa2 pa3-ns">
+							<img src="{{ post.post.thumbnail.src | resize(500,500) }}" alt="">
+							<p class="ma0 ttu f7 tracked mv2 bb b--red dib pb2">{{ post.post.category }}</p>
+							<h4 class="ma0 f3 serif-display fw1">{{ post.post.title }}</h4>
+							<a href="{{ post.post.link }}" class="absolute absolute--fill"></a>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+		{% elseif section.acf_fc_layout == 'shop' %}
+			<section class="section--shop ph2 bg-white flex flex-column items-center justify-center">
+				<h3 class="f3 tc fw1 ttu tracked mt0 pv4 pt5-l mb4 mb4-l bb b--red dib center">{{ section.heading }}</h3>
+				<div class="flex flex-wrap w-100 center mw9 ph5-l justify-center">
+					{% for post in section.featured_collections %}
+						<div class="w-100 w-50-ns mw7 pa1 pa3-ns mb5-ns">
+							<div class="w-100 flex flex-column flex-row-ns items-center bg-white relative ba b--black-05">
+								<div class="w-100 w-50-ns">
+									<img class="fl" src="{{ TimberImage(post.collection.thumbnail).src | resize(1000, 1000) }}" alt="">
+								</div>
+								<div class="w-100 w-50-ns pa2 pa3-ns">
+									<h4 class="f3 dib mv2 serif-display fw4">{{ post.collection.title }}</h4>
+									<p class="f6 mt2 lh-copy">{{ post.collection.preview.length(30).read_more('') }}</p>
+								</div>
+								<a href="{{ post.collection.link }}" class="absolute absolute--fill"></a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="flex flex-wrap w-100 mw8 center justify-center">
+					{% for post in section.featured_products %}
+						<div class="w-50 w-25-ns relative pa1 pa2-m pa3-l">
+							<img src="{{ TimberImage(post.product.thumbnail).src |letterbox(500, 800, '#FFFFFF')  }}" alt="">
+							<p class="tc o-50 black ttu tracked f7 mv1">{{ post.product.brand }}</p>
+							<h4 class="tc fw1 f4 mt0 mb2">{{ post.product.title }}</h4>
+							<a href="{{ post.product.link }}" class="absolute absolute--fill"></a>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="flex w-100 items-center justify-center pv4 pv5-l">
+					<a class="ttu fw4 lh-solid tracked pv3 ph4 ba b--black black" href="{{ section.cta.url }}">{{ section.cta.title }}</a>
+				</div>
+			</section>
+
+		{% endif %}
+	{% endfor %}
+{% endblock %}

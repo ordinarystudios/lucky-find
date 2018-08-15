@@ -1,1 +1,1 @@
-$(function($){var e,o=$(window),r=$(window).innerHeight();o.scroll(function(){e=o.scrollTop(),e>=r-64?$(".header.home").addClass("sticky"):$(".header.home").removeClass("sticky")})});var $grid=$(".loop .wrapper").imagesLoaded(function(){$grid.masonry({itemSelector:".card",gutter:16})});
+$(function($){var e,o=$(window),i=$(window).innerHeight();o.scroll(function(){e=o.scrollTop(),e>=i-64?$(".header.home").addClass("sticky"):$(".header.home").removeClass("sticky")})});

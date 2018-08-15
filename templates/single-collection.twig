@@ -1,0 +1,89 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="mw9 center pa2 pa3-m pa4-l">
+		<nav class="pa3 dn db-ns w-third-m w-25-l fl">
+			<h3 class="fw4 sans-serif ttu f7 black o-30 tracked">Collections</h3>
+			<ul class="list pa0">
+				{% for collection in collections %}
+					<li class="mv2"><a class="black" href="{{ collection.link }}">{{ collection.title }}</a></li>
+				{% endfor  %}
+			</ul>
+		</nav>
+		<article class="post-type-{{post.post_type}} w-two-thirds-m w-75-l fl" id="post-{{post.ID}}">
+			<div class="article-content">
+
+				<div class="flex flex-column flex-row-ns flex-wrap items-center justify-center">
+					<img class="w-100 w-40-l h-auto" src="{{ post.thumbnail.src | resize(1000,1000) }}" alt="">
+					<div class="w-100 w-60-l pv3 pv0-l ph3 ph4-l">
+						<h1 class="article-h1 f4 fw1 sans-serif tracked ttu black measure-narrow">{{post.title}}</h1>
+						<div class="serif-display f3 fw1 black lh-copy measure-narrow">
+							{{ post.content }}
+						</div>
+					</div>
+
+				</div>
+
+				<div class="article-body pv4 flex flex-wrap na2">
+					{% for item in post.get_field('products') %}
+						<div class="w-50 w-third-m w-25-l pa2 relative">
+							<div class="bg-white flex flex-column items-center justify-center">
+							<div class="pa3 w-100">
+								<div class="contain bg-center w-100 h5" style="background-image:url({{ item.product.thumbnail.src }});"></div>
+							</div>
+							<p class="ma0 f7 black o-50 ttu tracked mv2">{{ item.product.brand }}</p>
+							<h4 class="mt0 mb3 fw2 f5 f4-l">
+								{{ item.product.title }}
+							</h4>
+							</div>
+							<a target="_blank" class="absolute absolute--fill z-2" href="{{ item.product.url }}"></a>
+						</div>
+					{% endfor %}
+				</div>
+
+
+				{% if post.get_field('share_post').show_section %}
+				<section class="share_this_post">
+					<h2 class="tc">{{ post.get_field('share_post').title }}</h2>
+					<ul class="list pa0 flex flex-wrap h4 items-center justify-center w-100">
+						{% for network in post.get_field('share_post').networks %}
+							{% if network == 'facebook' %}
+								<li>
+									<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ post.link | url_encode }}">
+										<span class="icon icon--facebook">Facebook</span>
+									</a>
+								</li>
+							{% elseif network == 'twitter' %}
+							<li>
+								<a target="_blank" href="https://twitter.com/home?status={{ post.link | url_encode }}">
+									<span class="icon icon--twitter">Twitter</span>
+								</a>
+							</li>
+							{% elseif network == 'google' %}
+							<li>
+								<a target="_blank" href="https://plus.google.com/share?url={{ post.link | url_encode }}">
+									<span class="icon icon--google">Google</span>
+								</a>
+							</li>
+							{% elseif network == 'linkedin' %}
+							<li>
+								<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ post.link | url_encode }}&title={{ post.title | url_encode }}&summary={{ post.preview | url_encode }}">
+									<span class="icon icon--linkedin">LinkedIn</span>
+								</a>
+							</li>
+							{% elseif network == 'email' %}
+							<li>
+								<a target="_blank" href="https://pinterest.com/pin/create/button/?url=&media=&description={{ post.link | url_encode }}">
+									<span class="icon icon--pinterest">Pinterest</span>
+								</a>
+							</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</section>
+				{% endif %}
+
+				</div>
+		</article>
+	</div><!-- /content-wrapper -->
+{% endblock %}

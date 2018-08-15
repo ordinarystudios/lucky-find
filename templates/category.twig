@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block title %}
+	{% if title == 'Fashion' %}
+		{% include "menu-sub.twig" with {'menu': fashion.get_items} %}
+	{% elseif title == 'Interiors' %}
+		{% include "menu-sub.twig" with {'menu': interiors.get_items} %}
+	{% elseif title == 'Lifestyle' %}
+		{% include "menu-sub.twig" with {'menu': lifestyle.get_items} %}
+	{% endif %}
+
+	{% if title %}
+		<h1 class="serif-display normal mv4-m mv5-l">{{title}}</h1>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+	<div class="loop">
+		<div class="wrapper flex flex-wrap justify-center">
+		{% for post in posts %}
+			{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+		{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

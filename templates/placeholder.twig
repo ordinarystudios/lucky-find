@@ -1,0 +1,48 @@
+{% block html_head_container %}
+
+{% include 'html-header.twig' %}
+	{% block head %}
+	{% endblock %}
+	</head>
+{% endblock %}
+
+	<body class="{{body_class}} mw9 center" data-template="base.twig">
+		<section id="content" role="main" class="content-wrapper">
+			<div class="wrapper">
+				{% block content %}
+					Sorry, no content
+				{% endblock %}
+			</div>
+		</section>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="{{site.theme.link}}/scripts/min/plugins-min.js"></script>
+
+		{{ function('wp_footer') }}
+
+		<script type="text/javascript">
+			$('.hero-featuredPostsCarousel').slick({
+				nextArrow: '<svg class="slick-next" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><g fill="none" fill-rule="evenodd"><circle cx="32" cy="32" r="32" fill="#B4B4B4" fill-opacity=".2"/><path fill="#FFF" d="M26.3923 40.61082l1.83737 1.38056 8.92462-9.92462L28.0875 22 26 23.91247l8.1543 8.1543-7.762 8.54405z"/></g></svg>',
+				prevArrow: '<svg class="slick-prev" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><g fill="none" fill-rule="evenodd" transform="rotate(-180 32 32)"><circle cx="32" cy="32" r="32" fill="#B4B4B4" fill-opacity=".2"/><path fill="#FFF" d="M26.3923 40.61082l1.83737 1.38056 8.92462-9.92462L28.0875 22 26 23.91247l8.1543 8.1543-7.762 8.54405z"/></g></svg>',
+				speed: 750,
+			});
+
+			$('.slick').slick({
+			});
+
+			$('.product-carousel').slick({
+				slidesToShow: 4,
+				slidesToScroll: 4
+			});
+
+
+
+			$('#mobileNavToggle').on('click touchstart', function(e) {
+				e.preventDefault();
+				$('.nav-mobile').toggleClass('db dn')
+			});
+		</script>
+
+	</body>
+
+</html>

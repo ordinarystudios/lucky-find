@@ -1,0 +1,7 @@
+{% if menu %}
+	<div class="dn flex-ns w-50 justify-start">
+	{% for item in menu %}
+		<a class="link mt1 mh2 mh3-l dn dib-ns" href="{{item.get_link}}" title="{{item.title}}">{{item.title}}</a>
+	{% endfor %}
+	</div>
+{% endif %}

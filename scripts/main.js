@@ -14,11 +14,3 @@ $(function($) {
 		}
 	});
 });
-
-
-var $grid = $('.loop .wrapper').imagesLoaded( function() {
-  $grid.masonry({
-		itemSelector: '.card',
-		gutter: 16
-  });
-});

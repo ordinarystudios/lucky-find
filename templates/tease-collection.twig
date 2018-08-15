@@ -1,0 +1,30 @@
+{% extends "tease.twig" %}
+
+{% block content %}
+<div class="flex flex-column-reverse flex-row-l w-100 bg-white mb4">
+	<div class="flex justify-center items-center w-100 w-40-l">
+		<div class="lh-title pa4">
+			<h2 class="ttu tracked fw1 mt0 mb3"><a href="{{post.link}}">{{post.title}}</a></h2>
+			<p class="lh-copy measure-narrow black">{{post.get_preview(25, false, false, true, "&hellip;")}}</p>
+			<a href="{{post.link}}">Shop the collection &rarr;</a>
+		</div>
+	</div>
+	<div class="flex flex-column-reverse {{ cycle(['flex-row-ns', 'flex-row-reverse-ns'], loop.index0) }} w-100 w-60-l">
+		<div class="collection-products flex flex-row flex-column-ns justify-around items-center w-third-ns">
+			{% for item in post.get_field('products') |slice(0,2) %}
+				<div class="relative product-thumb contain bg-center bg-white w4 h4 flex items-center justify-center" style="background-image:url('{{ item.product.thumbnail.src }}')">
+					<h4 class="product-thumb-title tc">
+						<span class="black ttu tracked f7 fw4 o-50">{{ item.product.brand }}</span><br>
+						<span class="black f3 fw1 mt2 dib lh-solid">{{ item.product.title }}</span>
+					</h4>
+					<a target="_blank" class="absolute absolute--fill z-2" href="{{ item.product.url }}"></a>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="relative w-two-thirds-ns">
+			<img class="fl" src="{{ post.thumbnail.src | resize(1000,1000) }}" />
+			<a class="absolute absolute--fill" href="{{post.link}}"></a>
+		</div>
+	</div>
+</div>
+{% endblock %}

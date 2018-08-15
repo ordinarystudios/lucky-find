@@ -1,46 +1,280 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<div class="content-wrapper">
+	<div class="content-wrapper mw9 center">
 		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-			<section class="article-content">
+			<div class="article-content">
 				<h1 class="article-h1">{{post.title}}</h1>
 				<p class="blog-author">
-					{{ post.post_date|date}}
+					<a class="ttu f7 tracked black o-50" href="{{post.category.link}}">{{ post.category }}</a>
+					<!-- &ndash;	{{ post.post_date|date}} -->
 				</p>
-				{% if post.get_field('music') %}
-					<div class="post-media">
-						{{post.get_field('music')}}
-					</div>
-				{% elseif post.get_field('video') %}
-					<div class="post-media">
-						{{post.get_field('video')}}
-					</div>
-				{% endif %}
-				<div class="article-body">
-					{{post.content}}
-				</div>
-				<div class="post-gallery">
-					{% if post.get_field('image_gallery') %}
-						{% for image in post.get_field('image_gallery') %}
-							<img src="{{ TimberImage(image) }}" alt="{{ post.title }}"/>
-						{% endfor %}
-					{% endif %}
-				</div>
-			</section>
-		{% if post.comment_status != 'closed' %}
-			<section class="comments">
-				<div class="respond">
-					<h3 class="f4">Comments</h3>
-					{{ fn('comment_form') }}
-				</div>
-				<div class="responses">
-					{% for cmt in post.get_comments() %}
-						{% include "comment.twig" with {comment:cmt} %}
+				<div class="article-body pa2 lh-copy">
+					{% for section in post.get_field('post_content') %}
+						{% if section.acf_fc_layout == 'hero_image' %}
+							<section class="hero_image tc overflow-auto">
+								<img class="w-100" src="{{ TimberImage(section.image).src }}" alt="{{ TimberImage(section.image).alt }}" title="{{ TimberImage(section.image).title }}">
+								<p class="black o-50 f7 mv3">{{ TimberImage(section.image).caption }}</p>
+							</section>
+						{% elseif section.acf_fc_layout == 'text' %}
+							<section class="text pa3 mb4 f4 fw3 measure-wide lh-copy center">
+								{{ section.content }}
+							</section>
+						{% elseif section.acf_fc_layout == 'gallery' %}
+							<section class="gallery pa3 mb4">
+								{% for image in section.images %}
+										<div></div>
+										<div class="dib nowrap mb2">
+									    <img class="fl" src="{{ TimberImage(image).src }}" />
+											{% if section.show_captions %}
+												<p class="f7 mt2 black-40">
+													{{ TimberImage(section.image).caption }}
+												</p>
+											{% endif %}
+										</div>
+								{% endfor %}
+							</section>
+						{% elseif section.acf_fc_layout == 'blockquote' %}
+							<section class="blockquote mb4">
+								<blockquote class="fw1 f4 f3-m f2-l serif-display tc lh-title">
+									{{ section.quote_text }}
+								</blockquote>
+								<p class="ttu f7 tracked black o-50 tc">{{ section.quote_author }}</p>
+							</section>
+						{% elseif section.acf_fc_layout == 'numbered_heading' %}
+							<section class="numbered_heading ph3 black mw7 ph4-ns center">
+								<h2 class="mv0 lh-solid indent">
+									<span class="number">{{ section.number }} </span>
+									<span class="text fw1 ttu sans-serif tracked">{{ section.heading }}</span>
+								</h2>
+							</section>
+						{% elseif section.acf_fc_layout == 'spread_images' %}
+							<section class="spread spread_images mb4 flex {% if section.flip %} flex-column-reverse flex-row-reverse-ns {% else %} flex-column flex-row-ns {% endif %} items-center justify-center">
+								<div class="spread-column pa2 w-100 w-50-ns">
+									<img src="{{ TimberImage(section.image1).src |resize(800, 1000)  }}" alt="{{ TimberImage(section.image1).alt  }}" title="{{ TimberImage(section.image1).title  }}">
+									{% if section.show_captions %}
+										<p class="f7 mt2 black-40">
+											{{ TimberImage(section.image1).caption }}
+										</p>
+									{% endif %}
+								</div>
+								<div class="spread-column pa2 w-100 w-50-ns">
+									<img src="{{ TimberImage(section.image2).src |resize(800, 1000)  }}" alt="{{ TimberImage(section.image2).alt  }}" title="{{ TimberImage(section.image2).title  }}">
+									{% if section.show_captions %}
+										<p class="f7 mt2 black-40">
+											{{ TimberImage(section.image2).caption }}
+										</p>
+									{% endif %}
+								</div>
+							</section>
+						{% elseif section.acf_fc_layout == 'spread_products' %}
+							<section class="spread spread_products mb4 flex {% if section.flip %} flex-column-reverse flex-row-reverse-ns {% else %} flex-column flex-row-ns {% endif %} items-center justify-center">
+								<div class="spread-column pa2 w-100 w-50-ns relative">
+									{% if TimberImage(section.product1_image).src %}
+										<img src="{{ TimberImage(section.product1_image).src | resize(800, 1000)  }}" alt="{{ TimberImage(section.product1_image).alt  }}" title="{{ TimberImage(section.product1_image).title  }}">
+										<div class="tc">
+											<p class="mv2 ttu f7 black o-50 tracked">{{ section.product1.brand }}</p>
+											<h4 class="f4 ma0 fw1">{{ section.product1.title }}</h4>
+										</div>
+									{% else %}
+										<img src="{{ TimberImage(section.product1.thumbnail).src | resize(800, 1000)  }}" alt="{{ TimberImage(section.product1.image).alt  }}" title="{{ TimberImage(section.product1.image).title  }}">
+										<div class="tc">
+											<p class="mv2 ttu f7 black o-50 tracked">{{ section.product1.brand }}</p>
+											<h4 class="f4 ma0 fw1">{{ section.product1.title }}</h4>
+										</div>
+									{% endif %}
+									<a href="{{ section.product1.url}}" class="absolute absolute--fill"></a>
+								</div>
+								<div class="spread-column pa2 w-100 w-50-ns relative">
+									{% if TimberImage(section.product2_image).src %}
+										<img src="{{ TimberImage(section.product2_image).src | resize(800, 1000)  }}" alt="{{ TimberImage(section.product2_image).alt  }}" title="{{ TimberImage(section.product2_image).title  }}">
+										<div class="tc">
+											<p class="mv2 ttu f7 black o-50 tracked">{{ section.product2.brand }}</p>
+											<h4 class="f4 ma0 fw1">{{ section.product2.title }}</h4>
+										</div>
+									{% else %}
+										<img src="{{ TimberImage(section.product2.thumbnail).src | resize(800, 1000) }}" alt="{{ TimberImage(section.product2_image).alt  }}" title="{{ TimberImage(section.product2_image).title  }}">
+										<div class="tc">
+											<p class="mv2 ttu f7 black o-50 tracked">{{ section.product2.brand }}</p>
+											<h4 class="f4 ma0 fw1">{{ section.product2.title }}</h4>
+										</div>
+									{% endif %}
+									<a href="{{ section.product2.url}}" class="absolute absolute--fill"></a>
+								</div>
+							</section>
+						{% elseif section.acf_fc_layout == 'spread_textimage' %}
+							<section class="spread mb4 spread_textimage flex {% if section.flip %} flex-column-reverse flex-row-reverse-ns {% else %} flex-column flex-row-ns {% endif %} items-center justify-center">
+								<div class="spread-column w-100 pa3 pa4-l w-50-ns">
+									<div class="black f4 fw1 measure-narrow center pa3">
+										{{ section.text }}
+									</div>
+								</div>
+								<div class="spread-column w-100 w-50-ns">
+									<img class="fl" src="{{ TimberImage(section.image).src }}" alt="{{ TimberImage(section.image).alt }}" title="{{ TimberImage(section.image).title }}"/>
+									{% if section.show_captions %}
+										<p class="f7 mt2 black-40">
+											{{ TimberImage(section.image).caption }}
+										</p>
+									{% endif %}
+								</div>
+							</section>
+						{% elseif section.acf_fc_layout == 'spread_imageproducts' %}
+							<section class="spread spread_imageproducts mb4 flex {% if section.flip %} flex-column-reverse flex-row-reverse-ns {% else %} flex-column flex-row-ns {% endif %} items-center justify-center">
+								<div class="spread-column w-100 w-50-ns">
+									<img src="{{ TimberImage(section.image).src }}" alt="{{ TimberImage(section.image).alt }}" title="{{ TimberImage(section.image).title }}"/>
+									{% if section.show_captions %}
+										<p class="f7 mt2 black-40">
+											{{ TimberImage(section.image).caption }}
+										</p>
+									{% endif %}
+								</div>
+								<div class="spread-column w-100 w-50-ns justify-around flex flex-wrap pa4">
+									{% for post in section.products %}
+									<!-- <div class="relative product-thumb contain bg-center bg-white w4 h4 flex items-center justify-center" style="background-image:url('{{ item.product.thumbnail.src }}')">
+										<h4 class="product-thumb-title tc">
+											<span class="black ttu tracked f7 fw4 o-50">{{ item.product.brand }}</span><br>
+											<span class="black f3 fw1 mt2 dib lh-solid">{{ item.product.title }}</span>
+										</h4>
+										<a class="absolute absolute--fill z-2" href="{{ item.product.url }}"></a>
+									</div> -->
+
+
+
+										<div class="product-thumb ba bw3 b--cream contain bg-center bg-white w-50 aspect-ratio aspect-ratio--6x4 flex items-center justify-center" style="background-image:url('{{ TimberImage(TimberPost(post.product).thumbnail).src  }}')">
+											<h4 class="product-thumb-title absolute ma0 tc fw1 absolute--fill flex flex-column items-center justify-center">
+												<span class="black ttu tracked f7 fw4 o-50 db">{{ TimberPost(post.product).brand }}</span>
+												<span class="black f3 fw1 mt2 dib lh-solid db">{{ TimberPost(post.product).title }}</span>
+											</h4>
+											<a target="_blank" class="absolute absolute--fill z-2" href="{{ TimberPost(post.product).url }}"></a>
+										</div>
+									{% endfor %}
+								</div>
+							</section>
+						{% elseif section.acf_fc_layout == 'spread_textproducts' %}
+							<section class="spread spread_textproducts mb4 flex {% if section.flip %} flex-column-reverse flex-row-reverse-ns {% else %} flex-column flex-row-ns {% endif %} items-center justify-center">
+								<div class="spread-column w-100 w-60-ns">
+									<div class="measure center pa3">
+										{{ section.text }}
+									</div>
+								</div>
+								<div class="spread-column w-100 w-40-ns flex flex-wrap">
+								{% for post in section.products %}
+									<div class="product-thumb ba bw3 b--cream contain bg-center bg-white w-50 aspect-ratio aspect-ratio--6x4 flex items-center justify-center" style="background-image:url('{{ TimberImage(TimberPost(post.product).thumbnail).src  }}')">
+										<h4 class="product-thumb-title absolute ma0 absolute--fill flex items-center justify-center">
+											{{ TimberPost(post.product).title }}
+										</h4>
+										<a target="_blank" class="absolute absolute--fill z-2" href="{{ TimberPost(post.product).url }}"></a>
+									</div>
+								{% endfor %}
+								</div>
+							</section>
+						{% endif %}
 					{% endfor %}
+
+
+					{% if post.get_field('featured_products').show_section %}
+						<section class="featured_products mb4">
+							<h2 class="tc ttu fw4 f5 tracked black o-50">{{ post.get_field('featured_products').title }}</h2>
+							<div class="flex flex-wrap justify-center w-100">
+
+								<!-- div class="product-carousel" -->
+								{% for post in post.get_field('featured_products').products %}
+									<div class="relative pa2 w-50 w-25-l">
+										<!-- w-50 w-25-l … include if not carousel-->
+										<div class="bg-white pa3">
+										<div class="aspect-ratio aspect-ratio--4x6 flex items-center justify-center bg-center contain" style="background-image:url('{{ TimberImage(TimberPost(post.product).thumbnail).src  }}')">
+										</div>
+										<p class="mb0 mt3 tc ttu f7 black o-50">
+											{{ TimberPost(post.product).brand }}
+										</p>
+										<h4 class="f4 ma0 fw1 black tc">
+											{{ TimberPost(post.product).title }}
+										</h4>
+										</div>
+
+										<a target="_blank" href="{{ TimberPost(post.product).url }}" class="absolute absolute--fill"></a>
+									</div>
+								{% endfor %}
+							</div>
+						</section>
+					{% endif %}
+
+				{% if post.get_field('share_post').show_section %}
+				<section class="share_this_post">
+					<h2 class="tc ttu fw4 f5 tracked black o-50">{{ post.get_field('share_post').title }}</h2>
+					<ul class="list pa0 flex flex-wrap h4 items-center justify-center w-100">
+						{% for network in post.get_field('share_post').networks %}
+							{% if network == 'facebook' %}
+								<li>
+									<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ post.link | url_encode }}">
+										<span class="icon icon--facebook">Facebook</span>
+									</a>
+								</li>
+							{% elseif network == 'twitter' %}
+							<li>
+								<a target="_blank" href="https://twitter.com/home?status={{ post.link | url_encode }}">
+									<span class="icon icon--twitter">Twitter</span>
+								</a>
+							</li>
+							{% elseif network == 'google' %}
+							<li>
+								<a target="_blank" href="https://plus.google.com/share?url={{ post.link | url_encode }}">
+									<span class="icon icon--google">Google</span>
+								</a>
+							</li>
+							{% elseif network == 'linkedin' %}
+							<li>
+								<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ post.link | url_encode }}&title={{ post.title | url_encode }}&summary={{ post.preview | url_encode }}">
+									<span class="icon icon--linkedin">LinkedIn</span>
+								</a>
+							</li>
+							{% elseif network == 'email' %}
+							<li>
+								<a target="_blank" href="https://pinterest.com/pin/create/button/?url=&media=&description={{ post.link | url_encode }}">
+									<span class="icon icon--pinterest">Pinterest</span>
+								</a>
+							</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</section>
+				{% endif %}
+
+				{% if post.get_field('read_next') %}
+					<section class="you_may_also_like">
+						<h2 class="tc ttu fw4 f5 tracked black o-50">
+							{{ post.get_field('read_next').section_title }}
+						</h2>
+						<div class="w-100 flex flex-wrap">
+						{% for post in post.get_field('read_next').posts %}
+						<div class="pa2 w-50">
+							<div class="card-thumbnail">
+								<img src="{{post.thumbnail.src | resize(600, 400) }}" />
+								<a class="card-thumbnail-link" href="{{post.link}}"></a>
+							</div>
+							<div class="card-summary lh-title overflow-auto tc">
+								<p class="sans-serif tracked black-50 f7 ttu mt2 mb0">
+									{% for category in post.terms('category') %}
+										{% if category != 'Fashion' and category != 'Lifestyle' and category != 'Interiors' %}
+											{{ category }} |
+										{% endif %}
+									{% endfor %}
+									{% for category in post.terms('category') %}
+										{% if category == 'Fashion' or category == 'Lifestyle' or category == 'Interiors' %}
+											{{ category }}
+										{% endif %}
+									{% endfor %}
+								</p>
+								<h2 class="f4 f3-l mv2 fw1 h3 serif-display"><a href="{{post.link}}">{{post.title}}</a></h2>
+							</div>
+						</div>
+						{% endfor %}
+						</div>
+					</section>
+				{% endif %}
+
 				</div>
-			</section>
-		{% endif %}
+			</div>
 		</article>
 	</div><!-- /content-wrapper -->
 {% endblock %}

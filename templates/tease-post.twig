@@ -1,27 +1,26 @@
 {% extends "tease.twig" %}
 
 {% block content %}
+<div class="pa2">
 	<div class="card-thumbnail">
-		{% if post.thumbnail.src %}
-			<img src="{{post.thumbnail.src}}" />
-			<a class="card-thumbnail-link" href="{{post.link}}"></a>
-		{% elseif post.get_field('music') %}
-			{{post.get_field('music')}}
-		{% elseif post.get_field('video') %}
-			{{post.get_field('video')}}
-		{% elseif post.get_field('image_gallery') %}
-			{% for image in post.get_field('image_gallery') %}
-				{% if loop.first %}
-					<img src="{{ TimberImage(image) }}" />
-					<a class="card-thumbnail-link" href="{{post.link}}"></a>
+		<img src="{{post.thumbnail.src | resize(600, 600) }}" />
+		<a class="card-thumbnail-link" href="{{post.link}}"></a>
+	</div>
+	<div class="card-summary lh-title overflow-auto tc">
+		<p class="sans-serif tracked black-50 f7 ttu mt2 mb0">
+			{% for category in post.terms('category') %}
+				{% if category != 'Fashion' and category != 'Lifestyle' and category != 'Interiors' %}
+					{{ category }}
 				{% endif %}
 			{% endfor %}
-		{% endif %}
+			 | 
+ 			{% for category in post.terms('category') %}
+ 				{% if category == 'Fashion' or category == 'Lifestyle' or category == 'Interiors' %}
+ 					{{ category }}
+ 				{% endif %}
+ 			{% endfor %}
+		</p>
+		<h2 class="f4 f3-l mv2 fw1 h3 serif-display"><a href="{{post.link}}">{{post.title}}</a></h2>
 	</div>
-	<div class="card-summary lh-title">
-		<h2><a href="{{post.link}}">{{post.title}}</a></h2>
-		<p>{{post.get_preview(25, false, false, true, "&hellip;")}}</p>
-		<p class="post-date">{{ post.post_date|date }}</p>
-	</div>
-
+</div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="mw9 center pa2 pa3-m pa4-l">
+	<nav class="pa3 dn db-ns w-third-m w-25-l fl">
+		<h3 class="fw4 sans-serif ttu f7 black o-30 tracked">Collections</h3>
+		<ul class="list pa0">
+			{% for post in posts %}
+				<li class="mv2"><a class="black" href="{{ post.link }}">{{ post.title }}</a></li>
+			{% endfor  %}
+		</ul>
+	</nav>
+	<div class="w-100 w-two-thirds-m w-75-l fl">
+		<div class="">
+			{% for post in posts %}
+				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
